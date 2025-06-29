@@ -24,6 +24,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           draggable
           pauseOnHover
         />
-      </BrowserRouter>
+</BrowserRouter>
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
+);
