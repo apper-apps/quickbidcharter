@@ -1,0 +1,66 @@
+[
+  {
+    "Id": 1,
+    "auctionId": 1,
+    "userId": 1,
+    "bidderName": "Alice Johnson",
+    "amount": 13000,
+    "timestamp": "2024-01-25T10:15:00Z"
+  },
+  {
+    "Id": 2,
+    "auctionId": 1,
+    "userId": 2,
+    "bidderName": "Bob Smith",
+    "amount": 14500,
+    "timestamp": "2024-01-25T11:22:00Z"
+  },
+  {
+    "Id": 3,
+    "auctionId": 1,
+    "userId": 3,
+    "bidderName": "Carol Davis",
+    "amount": 16000,
+    "timestamp": "2024-01-25T14:30:00Z"
+  },
+  {
+    "Id": 4,
+    "auctionId": 1,
+    "userId": 4,
+    "bidderName": "David Wilson",
+    "amount": 17500,
+    "timestamp": "2024-01-25T16:45:00Z"
+  },
+  {
+    "Id": 5,
+    "auctionId": 1,
+    "userId": 3,
+    "bidderName": "Carol Davis",
+    "amount": 18750,
+    "timestamp": "2024-01-25T18:12:00Z"
+  },
+  {
+    "Id": 6,
+    "auctionId": 2,
+    "userId": 1,
+    "bidderName": "Alice Johnson",
+    "amount": 900,
+    "timestamp": "2024-01-24T09:30:00Z"
+  },
+  {
+    "Id": 7,
+    "auctionId": 2,
+    "userId": 2,
+    "bidderName": "Bob Smith",
+    "amount": 1100,
+    "timestamp": "2024-01-24T12:15:00Z"
+  },
+  {
+    "Id": 8,
+    "auctionId": 2,
+    "userId": 1,
+    "bidderName": "Alice Johnson",
+    "amount": 1250,
+    "timestamp": "2024-01-24T15:45:00Z"
+  }
+]

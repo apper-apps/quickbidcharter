@@ -1,0 +1,34 @@
+[
+  {
+    "Id": 1,
+    "title": "Vintage Rolex Submariner - 1970s Classic",
+    "description": "An exceptional vintage Rolex Submariner from the 1970s in remarkable condition. This iconic timepiece features the classic black dial and bezel combination that made the Submariner legendary. The watch has been professionally serviced and comes with original documentation. Perfect for collectors and enthusiasts alike. This particular model represents the golden era of Rolex manufacturing with its robust build quality and timeless design. The watch shows minimal wear consistent with its age and has been carefully maintained by previous owners.",
+    "terms": "Payment due within 48 hours of auction close. Buyer responsible for shipping costs. All sales final. International shipping available with additional insurance. Watch comes with authenticity guarantee and 30-day return policy for authenticity issues only. Professional appraisal included with purchase.",
+    "images": [
+      "https://images.unsplash.com/photo-1547996160-81dfa63595aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1523170335258-f5c6c6bd6eeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1594534475808-b18fc33b045e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1606859007639-def7de161ad4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+    ],
+    "startingBid": 12500,
+    "currentBid": 18750,
+    "highestBidderId": 3,
+    "endTime": "2024-12-31T23:59:59Z",
+    "status": "active"
+  },
+  {
+    "Id": 2,
+    "title": "Original 1963 Ferrari 250 GTO Scale Model",
+    "description": "Rare collectible 1:18 scale model of the legendary Ferrari 250 GTO from 1963. This museum-quality piece features incredible attention to detail with opening doors, hood, and trunk. Hand-painted in Rosso Corsa red with authentic racing stripes and period-correct details. Limited edition piece #127 of 500 worldwide. Comes with display case and certificate of authenticity.",
+    "terms": "Immediate payment required. Shipped with full insurance and tracking. No returns accepted unless item damaged in shipping. International shipping available at buyer's expense.",
+    "images": [
+      "https://images.unsplash.com/photo-1544829099-b9a0c5303bea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1537984019355-2210d5662c20?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+    ],
+    "startingBid": 850,
+    "currentBid": 1250,
+    "highestBidderId": 1,
+    "endTime": "2024-12-30T18:00:00Z",
+    "status": "active"
+  }
+]
