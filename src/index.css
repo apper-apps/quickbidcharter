@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import 'react-toastify/dist/ReactToastify.css';
 
 * {
   box-sizing: border-box;
@@ -13,39 +12,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #ffffff;
-}
-
-/* Toast Customization */
-.Toastify__toast-container {
-  width: auto;
-  max-width: 420px;
-}
-
-.Toastify__toast {
-  border-radius: 8px;
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-}
-
-.Toastify__toast--success {
-  background: linear-gradient(135deg, #10B981, #059669);
-  color: white;
-}
-
-.Toastify__toast--error {
-  background: linear-gradient(135deg, #EF4444, #DC2626);
-  color: white;
-}
-
-.Toastify__toast--info {
-  background: linear-gradient(135deg, #3B82F6, #2563EB);
-  color: white;
-}
-
-.Toastify__toast--warning {
-  background: linear-gradient(135deg, #F59E0B, #D97706);
-  color: white;
 }
 
 /* Scrollbar Styling */
@@ -117,9 +83,5 @@ body {
 
 /* Mobile Responsive */
 @media (max-width: 640px) {
-  .Toastify__toast-container {
-    left: 1rem;
-    right: 1rem;
-    width: auto;
-  }
+  /* Mobile specific styles can be added here */
 }

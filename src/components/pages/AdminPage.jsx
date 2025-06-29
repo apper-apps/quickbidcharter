@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { toast } from 'react-toastify'
 import ApperIcon from '@/components/ApperIcon'
 import Badge from '@/components/atoms/Badge'
 import Button from '@/components/atoms/Button'
@@ -10,7 +9,6 @@ import Empty from '@/components/ui/Empty'
 import * as userService from '@/services/api/userService'
 import * as auctionService from '@/services/api/auctionService'
 import { formatDistanceToNow } from 'date-fns'
-
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState('users')
   const [users, setUsers] = useState([])
@@ -41,9 +39,9 @@ const AdminPage = () => {
       } else if (activeTab === 'auctions') {
         const auctionsData = await auctionService.getAll()
         setAuctions(auctionsData)
-      }
+}
     } catch (error) {
-      toast.error(`Failed to load ${activeTab}`)
+      console.error(`Failed to load ${activeTab}`)
     } finally {
       setLoading(false)
     }
@@ -53,11 +51,11 @@ const AdminPage = () => {
     if (!confirm('Are you sure you want to delete this user?')) return
 
     try {
-      await userService.delete(userId)
+await userService.delete(userId)
       setUsers(users.filter(user => user.Id !== userId))
-      toast.success('User deleted successfully')
+      console.log('User deleted successfully')
     } catch (error) {
-      toast.error('Failed to delete user')
+      console.error('Failed to delete user')
     }
   }
 
@@ -65,11 +63,11 @@ const AdminPage = () => {
     if (!confirm('Are you sure you want to delete this auction?')) return
 
     try {
-      await auctionService.delete(auctionId)
+await auctionService.delete(auctionId)
       setAuctions(auctions.filter(auction => auction.Id !== auctionId))
-      toast.success('Auction deleted successfully')
+      console.log('Auction deleted successfully')
     } catch (error) {
-      toast.error('Failed to delete auction')
+      console.error('Failed to delete auction')
     }
   }
 
@@ -92,11 +90,11 @@ const AdminPage = () => {
         terms: '',
         startingBid: '',
         endTime: '',
-        images: ['https://via.placeholder.com/800x600/6366f1/ffffff?text=Auction+Item']
+images: ['https://via.placeholder.com/800x600/6366f1/ffffff?text=Auction+Item']
       })
-      toast.success('Auction created successfully')
+      console.log('Auction created successfully')
     } catch (error) {
-      toast.error('Failed to create auction')
+      console.error('Failed to create auction')
     }
   }
 
@@ -217,9 +215,9 @@ const AdminPage = () => {
                             <div className="flex items-center justify-end space-x-2">
                               <Button
                                 variant="ghost"
-                                size="sm"
+size="sm"
                                 icon="Edit"
-                                onClick={() => toast.info('Edit functionality coming soon')}
+                                onClick={() => console.log('Edit functionality coming soon')}
                               >
                                 Edit
                               </Button>

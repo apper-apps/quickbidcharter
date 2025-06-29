@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { toast } from 'react-toastify'
 import ApperIcon from '@/components/ApperIcon'
 import Badge from '@/components/atoms/Badge'
 import Button from '@/components/atoms/Button'
@@ -10,7 +9,6 @@ import Empty from '@/components/ui/Empty'
 import * as bidService from '@/services/api/bidService'
 import * as userService from '@/services/api/userService'
 import { formatDistanceToNow } from 'date-fns'
-
 const MyAccountPage = () => {
   const [currentUser, setCurrentUser] = useState(null)
   const [userBids, setUserBids] = useState([])
@@ -29,9 +27,9 @@ const MyAccountPage = () => {
       setLoading(true)
       
       // Get current user from localStorage
-      const savedUser = localStorage.getItem('quickbid_user')
+const savedUser = localStorage.getItem('quickbid_user')
       if (!savedUser) {
-        toast.error('Please register to access your account')
+        console.log('Please register to access your account')
         return
       }
 
@@ -47,9 +45,8 @@ const MyAccountPage = () => {
       // For demo purposes, we'll simulate some wins
       const wins = bids.filter((_, index) => index % 3 === 0) // Every 3rd bid is a "win"
       setWinningBids(wins)
-
-    } catch (error) {
-      toast.error('Failed to load account data')
+} catch (error) {
+      console.error('Failed to load account data')
     } finally {
       setLoading(false)
     }
@@ -61,11 +58,11 @@ const MyAccountPage = () => {
     try {
       const updatedUser = await userService.update(currentUser.Id, formData)
       setCurrentUser(updatedUser)
-      localStorage.setItem('quickbid_user', JSON.stringify(updatedUser))
+localStorage.setItem('quickbid_user', JSON.stringify(updatedUser))
       setEditMode(false)
-      toast.success('Profile updated successfully!')
+      console.log('Profile updated successfully!')
     } catch (error) {
-      toast.error('Failed to update profile')
+      console.error('Failed to update profile')
     }
   }
 

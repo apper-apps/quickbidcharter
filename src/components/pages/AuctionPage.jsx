@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { toast } from 'react-toastify'
 import ImageGallery from '@/components/molecules/ImageGallery'
 import CountdownTimer from '@/components/molecules/CountdownTimer'
 import BidForm from '@/components/molecules/BidForm'
@@ -15,7 +14,6 @@ import ApperIcon from '@/components/ApperIcon'
 import * as auctionService from '@/services/api/auctionService'
 import * as bidService from '@/services/api/bidService'
 import * as userService from '@/services/api/userService'
-
 const AuctionPage = () => {
   const { id } = useParams()
   const [auction, setAuction] = useState(null)
@@ -103,11 +101,9 @@ const AuctionPage = () => {
       throw new Error('Failed to place bid')
     }
   }
-
-  const handleAuctionExpire = () => {
-    toast.info('This auction has ended!')
+const handleAuctionExpire = () => {
+    console.log('This auction has ended!')
   }
-
   useEffect(() => {
     loadAuction()
     
