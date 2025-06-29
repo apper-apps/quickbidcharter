@@ -6,6 +6,7 @@ import Button from '@/components/atoms/Button'
 import Input from '@/components/atoms/Input'
 import Loading from '@/components/ui/Loading'
 import Empty from '@/components/ui/Empty'
+import { toast } from 'react-toastify'
 import * as userService from '@/services/api/userService'
 import * as auctionService from '@/services/api/auctionService'
 import { formatDistanceToNow } from 'date-fns'
@@ -53,9 +54,10 @@ const AdminPage = () => {
     try {
 await userService.delete(userId)
       setUsers(users.filter(user => user.Id !== userId))
-      console.log('User deleted successfully')
+      toast.success('User deleted successfully')
     } catch (error) {
-      console.error('Failed to delete user')
+console.error('Failed to delete user:', error)
+      toast.error('Failed to delete user')
     }
   }
 
@@ -65,9 +67,10 @@ await userService.delete(userId)
     try {
 await auctionService.delete(auctionId)
       setAuctions(auctions.filter(auction => auction.Id !== auctionId))
-      console.log('Auction deleted successfully')
+      toast.success('Auction deleted successfully')
     } catch (error) {
-      console.error('Failed to delete auction')
+console.error('Failed to delete auction:', error)
+      toast.error('Failed to delete auction')
     }
   }
 
@@ -75,10 +78,14 @@ await auctionService.delete(auctionId)
     e.preventDefault()
 
     try {
-      const newAuction = await auctionService.create({
-        ...auctionForm,
-        startingBid: parseFloat(auctionForm.startingBid),
-        currentBid: parseFloat(auctionForm.startingBid),
+const newAuction = await auctionService.create({
+        title: auctionForm.title,
+        description: auctionForm.description,
+        terms: auctionForm.terms,
+        images: JSON.stringify(auctionForm.images),
+        starting_bid: parseFloat(auctionForm.startingBid),
+        current_bid: parseFloat(auctionForm.startingBid),
+        end_time: auctionForm.endTime,
         status: 'active'
       })
 
@@ -92,9 +99,10 @@ await auctionService.delete(auctionId)
         endTime: '',
 images: ['https://via.placeholder.com/800x600/6366f1/ffffff?text=Auction+Item']
       })
-      console.log('Auction created successfully')
+toast.success('Auction created successfully')
     } catch (error) {
-      console.error('Failed to create auction')
+      console.error('Failed to create auction:', error)
+      toast.error('Failed to create auction')
     }
   }
 
@@ -194,8 +202,8 @@ images: ['https://via.placeholder.com/800x600/6366f1/ffffff?text=Auction+Item']
                                 <ApperIcon name="User" size={20} className="text-primary-600" />
                               </div>
                               <div className="ml-4">
-                                <div className="text-sm font-medium text-gray-900">
-                                  {user.name}
+<div className="text-sm font-medium text-gray-900">
+                                  {user.Name}
                                 </div>
                                 <div className="text-sm text-gray-500">
                                   {user.email}
@@ -204,12 +212,12 @@ images: ['https://via.placeholder.com/800x600/6366f1/ffffff?text=Auction+Item']
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <Badge variant={user.isAdmin ? 'accent' : 'success'}>
-                              {user.isAdmin ? 'Admin' : 'Active'}
+<Badge variant={user.is_admin ? 'accent' : 'success'}>
+                              {user.is_admin ? 'Admin' : 'Active'}
                             </Badge>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {formatDistanceToNow(new Date(user.registeredAt), { addSuffix: true })}
+{formatDistanceToNow(new Date(user.registered_at), { addSuffix: true })}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <div className="flex items-center justify-end space-x-2">
@@ -296,7 +304,7 @@ size="sm"
                                 />
                               </div>
                               <div className="ml-4">
-                                <div className="text-sm font-medium text-gray-900">
+<div className="text-sm font-medium text-gray-900">
                                   {auction.title}
                                 </div>
                                 <div className="text-sm text-gray-500">
@@ -306,20 +314,20 @@ size="sm"
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm font-semibold text-green-600">
-                              ${auction.currentBid.toLocaleString()}
+<div className="text-sm font-semibold text-green-600">
+                              ${auction.current_bid.toLocaleString()}
                             </div>
                             <div className="text-xs text-gray-500">
-                              Starting: ${auction.startingBid.toLocaleString()}
+Starting: ${auction.starting_bid.toLocaleString()}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <Badge variant={new Date(auction.endTime) > new Date() ? 'success' : 'error'}>
-                              {new Date(auction.endTime) > new Date() ? 'Active' : 'Ended'}
+<Badge variant={new Date(auction.end_time) > new Date() ? 'success' : 'error'}>
+                              {new Date(auction.end_time) > new Date() ? 'Active' : 'Ended'}
                             </Badge>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {formatDistanceToNow(new Date(auction.endTime), { addSuffix: true })}
+{formatDistanceToNow(new Date(auction.end_time), { addSuffix: true })}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <div className="flex items-center justify-end space-x-2">
@@ -378,7 +386,7 @@ size="sm"
                   <ApperIcon name="TrendingUp" size={24} className="text-purple-600" />
                 </div>
                 <div className="text-2xl font-bold text-gray-900">
-                  ${auctions.reduce((sum, auction) => sum + auction.currentBid, 0).toLocaleString()}
+${auctions.reduce((sum, auction) => sum + auction.current_bid, 0).toLocaleString()}
                 </div>
                 <div className="text-sm text-gray-600">Total Bid Value</div>
               </div>
@@ -388,7 +396,7 @@ size="sm"
                   <ApperIcon name="Activity" size={24} className="text-orange-600" />
                 </div>
                 <div className="text-2xl font-bold text-gray-900">
-                  {auctions.filter(a => new Date(a.endTime) > new Date()).length}
+{auctions.filter(a => new Date(a.end_time) > new Date()).length}
                 </div>
                 <div className="text-sm text-gray-600">Live Auctions</div>
               </div>

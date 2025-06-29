@@ -1,98 +1,104 @@
-import React, { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import ApperIcon from '@/components/ApperIcon'
-import Badge from '@/components/atoms/Badge'
-import Button from '@/components/atoms/Button'
-import Input from '@/components/atoms/Input'
-import Loading from '@/components/ui/Loading'
-import Empty from '@/components/ui/Empty'
-import * as bidService from '@/services/api/bidService'
-import * as userService from '@/services/api/userService'
-import { formatDistanceToNow } from 'date-fns'
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { setUser } from "@/store/userSlice";
+import { formatDistanceToNow } from "date-fns";
+import ApperIcon from "@/components/ApperIcon";
+import Badge from "@/components/atoms/Badge";
+import Input from "@/components/atoms/Input";
+import Button from "@/components/atoms/Button";
+import Empty from "@/components/ui/Empty";
+import Loading from "@/components/ui/Loading";
+import * as userService from "@/services/api/userService";
+import * as bidService from "@/services/api/bidService";
+import * as auctionService from "@/services/api/auctionService";
+
 const MyAccountPage = () => {
-  const [currentUser, setCurrentUser] = useState(null)
-  const [userBids, setUserBids] = useState([])
-  const [winningBids, setWinningBids] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState('profile')
-  const [editMode, setEditMode] = useState(false)
-  const [formData, setFormData] = useState({ name: '', email: '' })
+  const dispatch = useDispatch();
+  const { user: currentUser, isAuthenticated } = useSelector((state) => state.user);
+const [userBids, setUserBids] = useState([]);
+  const [winningBids, setWinningBids] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('profile');
+  const [editMode, setEditMode] = useState(false);
+  const [formData, setFormData] = useState({ Name: '', email: '' });
 
   useEffect(() => {
-    loadUserData()
-  }, [])
+    if (isAuthenticated && currentUser) {
+      loadUserData();
+    }
+  }, [isAuthenticated, currentUser]);
 
   const loadUserData = async () => {
-    try {
-      setLoading(true)
+try {
+      setLoading(true);
       
-      // Get current user from localStorage
-const savedUser = localStorage.getItem('quickbid_user')
-      if (!savedUser) {
-        console.log('Please register to access your account')
-        return
+      if (!currentUser || !currentUser.userId) {
+        toast.error('Please log in to access your account');
+        return;
       }
 
-      const user = JSON.parse(savedUser)
-      setCurrentUser(user)
-      setFormData({ name: user.name, email: user.email })
+      setFormData({ Name: currentUser.firstName + ' ' + currentUser.lastName, email: currentUser.emailAddress });
 
       // Load user bids
-      const bids = await bidService.getByUserId(user.Id)
-      setUserBids(bids)
+      const bids = await bidService.getByUserId(currentUser.userId);
+      setUserBids(bids);
 
       // Filter winning bids (highest bids on completed auctions)
       // For demo purposes, we'll simulate some wins
-      const wins = bids.filter((_, index) => index % 3 === 0) // Every 3rd bid is a "win"
-      setWinningBids(wins)
-} catch (error) {
-      console.error('Failed to load account data')
+      const wins = bids.filter((_, index) => index % 3 === 0); // Every 3rd bid is a "win"
+      setWinningBids(wins);
+    } catch (error) {
+      console.error('Failed to load account data:', error);
+      toast.error('Failed to load account data');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
-
-  const handleUpdateProfile = async (e) => {
-    e.preventDefault()
+  };
+const handleUpdateProfile = async (e) => {
+    e.preventDefault();
     
     try {
-      const updatedUser = await userService.update(currentUser.Id, formData)
-      setCurrentUser(updatedUser)
-localStorage.setItem('quickbid_user', JSON.stringify(updatedUser))
-      setEditMode(false)
-      console.log('Profile updated successfully!')
+      const updateData = {
+        Name: formData.Name,
+        email: formData.email
+      };
+      
+      const updatedUser = await userService.update(currentUser.userId, updateData);
+      dispatch(setUser({ ...currentUser, ...updatedUser }));
+      setEditMode(false);
+      toast.success('Profile updated successfully!');
     } catch (error) {
-      console.error('Failed to update profile')
+      console.error('Failed to update profile:', error);
+      toast.error('Failed to update profile');
     }
-  }
-
-  const tabs = [
+  };
+const tabs = [
     { id: 'profile', name: 'Profile', icon: 'User' },
     { id: 'bids', name: 'My Bids', icon: 'TrendingUp' },
     { id: 'wins', name: 'My Wins', icon: 'Trophy' },
     { id: 'settings', name: 'Settings', icon: 'Settings' }
-  ]
-
-  if (loading) {
+  ];
+if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Loading />
       </div>
-    )
+    );
   }
 
-  if (!currentUser) {
-    return (
+  if (!isAuthenticated || !currentUser) {
+return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Empty 
           type="account"
-          action={() => window.location.href = '/'}
-          actionLabel="Go to Auctions"
+          action={() => window.location.href = '/login'}
+          actionLabel="Please Login"
         />
       </div>
-    )
+    );
   }
-
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex flex-col lg:flex-row gap-8">
@@ -100,11 +106,11 @@ localStorage.setItem('quickbid_user', JSON.stringify(updatedUser))
         <div className="lg:w-64 flex-shrink-0">
           <div className="card p-6 mb-6">
             <div className="text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
+<div className="w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
                 <ApperIcon name="User" size={32} className="text-white" />
               </div>
-              <h2 className="text-xl font-bold text-gray-900">{currentUser.name}</h2>
-              <p className="text-gray-600">{currentUser.email}</p>
+              <h2 className="text-xl font-bold text-gray-900">{currentUser.firstName} {currentUser.lastName}</h2>
+              <p className="text-gray-600">{currentUser.emailAddress}</p>
               <Badge variant="primary" className="mt-2">Verified Bidder</Badge>
             </div>
           </div>
@@ -149,14 +155,13 @@ localStorage.setItem('quickbid_user', JSON.stringify(updatedUser))
               </div>
 
               {editMode ? (
-                <form onSubmit={handleUpdateProfile} className="space-y-6">
+<form onSubmit={handleUpdateProfile} className="space-y-6">
                   <Input
                     label="Full Name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    value={formData.Name}
+                    onChange={(e) => setFormData({...formData, Name: e.target.value})}
                     required
                   />
-                  
                   <Input
                     label="Email Address"
                     type="email"
@@ -169,12 +174,12 @@ localStorage.setItem('quickbid_user', JSON.stringify(updatedUser))
                     <Button type="submit" variant="primary">
                       Save Changes
                     </Button>
-                    <Button
+<Button
                       type="button"
                       variant="secondary"
                       onClick={() => {
-                        setEditMode(false)
-                        setFormData({ name: currentUser.name, email: currentUser.email })
+                        setEditMode(false);
+                        setFormData({ Name: currentUser.firstName + ' ' + currentUser.lastName, email: currentUser.emailAddress });
                       }}
                     >
                       Cancel
@@ -187,18 +192,18 @@ localStorage.setItem('quickbid_user', JSON.stringify(updatedUser))
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
                         Full Name
-                      </label>
+</label>
                       <div className="p-3 bg-gray-50 rounded-lg text-gray-900">
-                        {currentUser.name}
+                        {currentUser.firstName} {currentUser.lastName}
                       </div>
                     </div>
                     
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
                         Email Address
-                      </label>
+</label>
                       <div className="p-3 bg-gray-50 rounded-lg text-gray-900">
-                        {currentUser.email}
+                        {currentUser.emailAddress}
                       </div>
                     </div>
                     
@@ -207,7 +212,7 @@ localStorage.setItem('quickbid_user', JSON.stringify(updatedUser))
                         Member Since
                       </label>
                       <div className="p-3 bg-gray-50 rounded-lg text-gray-900">
-                        {new Date(currentUser.registeredAt).toLocaleDateString()}
+                        {new Date(currentUser.accounts?.[0]?.createdOn || new Date()).toLocaleDateString()}
                       </div>
                     </div>
                     
@@ -391,9 +396,9 @@ localStorage.setItem('quickbid_user', JSON.stringify(updatedUser))
             </motion.div>
           )}
         </div>
-      </div>
+</div>
     </div>
-  )
-}
+  );
+};
 
-export default MyAccountPage
+export default MyAccountPage;
